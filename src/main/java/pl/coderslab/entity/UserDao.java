@@ -1,6 +1,7 @@
 package pl.coderslab.entity;
 
 import java.sql.*;
+import java.util.Arrays;
 
 public class UserDao {
 
@@ -24,9 +25,6 @@ public class UserDao {
             e.printStackTrace();
         }
 
-
-
-
     }
 public User read(int id ){
 
@@ -40,7 +38,11 @@ public User read(int id ){
                 String email = rs.getString("email");
                 String username = rs.getString("username");
                 String password = rs.getString("password");
-                User user = new User(id2,email,username,password);
+                User user = new User();
+                user.setId(id2);
+                user.setUsername(username);
+                user.setEmail(email);
+                user.setPassword(password);
                 return user;
             }
 
@@ -76,5 +78,49 @@ public void delete(int id){
             e.printStackTrace();
         }
 }
+public User[] findAll(){
+try(Connection conn = DBUtil.connect()){
+    User users[] = new User[0];
+    PreparedStatement preste0 = conn.prepareStatement("SELECT COUNT(*) FROM users;");
+    ResultSet rs = preste0.executeQuery();
+    int countId = 0;
+    if(rs.next()) {
+         countId = rs.getInt(1);
+
+    }
+PreparedStatement preste = conn.prepareStatement("SELECT * FROM users WHERE id = ?;");
+    for(int i = 1; i <= countId; i++){
+        preste.setInt(1,i);
+        ResultSet rs2 = preste.executeQuery();
+        if(rs2.next()){
+            User user = new User();
+            user.setId(rs2.getInt("id"));
+            user.setEmail(rs2.getString("email"));
+            user.setPassword(rs2.getString("password"));
+            user.setUsername(rs2.getString("username"));
+
+            users = addToArray(users,user);
+        }
+
+    }
+
+
+    return users;
+
+}catch (SQLException e){
+    e.printStackTrace();
+}
+
+
+
+        return null;
+}
+public User[] addToArray(User users[], User user){
+         users = Arrays.copyOf(users,users.length+1);
+         users[users.length-1] = user;
+
+         return users;
+    }
+
 
 }

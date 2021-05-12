@@ -7,13 +7,8 @@ public class User {
     private String password;
 
 
-    public User(int id,String email, String username,String password ){
-        this.id = id;
-        this.email = email;
-        this.username = username;
-        this.password = org.mindrot.jbcrypt.BCrypt.hashpw(password, org.mindrot.jbcrypt.BCrypt.gensalt());
 
-    }
+
 
     public void setId(int id) {
         this.id = id;
@@ -28,7 +23,7 @@ public class User {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = org.mindrot.jbcrypt.BCrypt.hashpw(password, org.mindrot.jbcrypt.BCrypt.gensalt());
     }
 
     public int getId() {
