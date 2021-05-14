@@ -12,19 +12,14 @@ public class Main1 {
 
     public static void main(String[] args) {
 
-        User user = new User();
-        user.setUsername("krzychu");
-        user.setPassword("32167");
-        user.setEmail("bla@bla.pl");
-        User user2 = new User();
-        user2.setEmail("elo@elo.pl");
-        user2.setPassword("1234");
-        user2.setUsername("jaco");
+
         UserDao userDao = new UserDao();
-        User userT2 = userDao.read(2);
-        userT2.setUsername("Olek");
-        System.out.println(userT2.getId());
-        userDao.update(userT2);
+        User user2 = new User();
+        user2.setUsername("Robert");
+        user2.setEmail("Kwachu@outlook.com");
+        user2.setPassword("1234567");
+
+
 
 
        User users[] = userDao.findAll();

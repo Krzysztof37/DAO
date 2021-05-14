@@ -5,9 +5,9 @@ import java.util.Arrays;
 
 public class UserDao {
 
-    private User user;
 
-    public void create(User user){
+
+    public User create(User user){
 
         try(Connection conn = DBUtil.connect()){
             PreparedStatement preste = conn.prepareStatement("INSERT INTO users VALUES(null,?,?,?);", Statement.RETURN_GENERATED_KEYS);
@@ -21,10 +21,11 @@ public class UserDao {
             while(rs.next()){
                 user.setId(rs.getInt(1));
             }
+            return user;
         }catch (SQLException e){
             e.printStackTrace();
         }
-
+return null;
     }
 public User read(int id ){
 
@@ -81,18 +82,10 @@ public void delete(int id){
 public User[] findAll(){
 try(Connection conn = DBUtil.connect()){
     User users[] = new User[0];
-    PreparedStatement preste0 = conn.prepareStatement("SELECT COUNT(*) FROM users;");
-    ResultSet rs = preste0.executeQuery();
-    int countId = 0;
-    if(rs.next()) {
-         countId = rs.getInt(1);
+PreparedStatement preste = conn.prepareStatement("SELECT * FROM users;");
 
-    }
-PreparedStatement preste = conn.prepareStatement("SELECT * FROM users WHERE id = ?;");
-    for(int i = 1; i <= countId; i++){
-        preste.setInt(1,i);
-        ResultSet rs2 = preste.executeQuery();
-        if(rs2.next()){
+    ResultSet rs2 = preste.executeQuery();
+        while(rs2.next()){
             User user = new User();
             user.setId(rs2.getInt("id"));
             user.setEmail(rs2.getString("email"));
@@ -101,19 +94,13 @@ PreparedStatement preste = conn.prepareStatement("SELECT * FROM users WHERE id =
 
             users = addToArray(users,user);
         }
-
-    }
-
-
-    return users;
+        return users;
 
 }catch (SQLException e){
     e.printStackTrace();
 }
 
-
-
-        return null;
+return null;
 }
 public User[] addToArray(User users[], User user){
          users = Arrays.copyOf(users,users.length+1);
