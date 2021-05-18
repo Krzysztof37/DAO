@@ -1,4 +1,6 @@
-package pl.coderslab.entity;
+package pl.coderslab.methods;
+
+import pl.coderslab.entity.User;
 
 import java.sql.*;
 import java.util.Arrays;

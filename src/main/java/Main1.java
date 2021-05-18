@@ -1,24 +1,22 @@
-import pl.coderslab.entity.DBUtil;
 import pl.coderslab.entity.User;
-import pl.coderslab.entity.UserDao;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Arrays;
+import pl.coderslab.methods.BCrypt;
+import pl.coderslab.methods.UserDao;
 
 public class Main1 {
 
     public static void main(String[] args) {
 
 
-        UserDao userDao = new UserDao();
-        User user2 = new User();
-        user2.setUsername("Robert");
-        user2.setEmail("Kwachu@outlook.com");
-        user2.setPassword("1234567");
+       UserDao userDao = new UserDao();
+        User user2;
+       // user2.setPassword("1234");
+      //  user2.setUsername("Jaco");
 
+      // user2.setEmail("Kwachu@outlook.com");
+
+        user2 = userDao.read(2);
+        user2.setEmail("elo@elo2.pl");
+        userDao.update(user2);
 
 
 
@@ -26,12 +24,6 @@ public class Main1 {
        for(User user10 : users){
            System.out.println(user10.getId() +" "+user10.getUsername()+" "+user10.getEmail());
        }
-
-
-
-
-
-
 
     }
 
