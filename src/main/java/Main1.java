@@ -9,10 +9,7 @@ public class Main1 {
 
        UserDao userDao = new UserDao();
         User user2;
-       // user2.setPassword("1234");
-      //  user2.setUsername("Jaco");
 
-      // user2.setEmail("Kwachu@outlook.com");
 
         user2 = userDao.read(2);
         user2.setEmail("elo@elo2.pl");

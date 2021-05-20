@@ -7,12 +7,16 @@ import java.util.Arrays;
 
 public class UserDao {
 
-
+    private static final String CREATE_USER = "INSERT INTO users VALUES(null,?,?,?);";
+    private static final String READ_USER = "SELECT * FROM users WHERE id = ?;";
+    private static final String UPDATE_USER = "UPDATE users set email = ?, username = ?, password = ? WHERE id = ?;";
+    private static final String DELETE_USER = "DELETE  FROM users where id = ?;";
+    private static final String SELECT_USERS = "SELECT * FROM users;";
 
     public User create(User user){
 
         try(Connection conn = DBUtil.connect()){
-            PreparedStatement preste = conn.prepareStatement("INSERT INTO users VALUES(null,?,?,?);", Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement preste = conn.prepareStatement(CREATE_USER, Statement.RETURN_GENERATED_KEYS);
 
             preste.setString(1,user.getEmail());
             preste.setString(2,user.getUsername());
@@ -32,7 +36,7 @@ return null;
 public User read(int id ){
 
         try(Connection conn = DBUtil.connect()){
-            PreparedStatement preste = conn.prepareStatement("SELECT * FROM users WHERE id = ?;");
+            PreparedStatement preste = conn.prepareStatement(READ_USER);
             preste.setInt(1,id);
             ResultSet rs = preste.executeQuery();
             if (rs.next()) {
@@ -56,7 +60,7 @@ public User read(int id ){
 }
 public void update (User user){
         try(Connection conn = DBUtil.connect()){
-            PreparedStatement preste = conn.prepareStatement("UPDATE users set email = ?, username = ?, password = ? WHERE id = ?;");
+            PreparedStatement preste = conn.prepareStatement(UPDATE_USER);
             preste.setString(1,user.getEmail());
             preste.setString(2,user.getUsername());
             preste.setString(3, user.getPassword());
@@ -72,7 +76,7 @@ public void update (User user){
 }
 public void delete(int id){
         try(Connection conn = DBUtil.connect()){
-            PreparedStatement preste = conn.prepareStatement("DELETE  FROM users where id = ?;");
+            PreparedStatement preste = conn.prepareStatement(DELETE_USER);
             preste.setInt(1,id);
             preste.executeUpdate();
 
@@ -84,7 +88,7 @@ public void delete(int id){
 public User[] findAll(){
 try(Connection conn = DBUtil.connect()){
     User users[] = new User[0];
-PreparedStatement preste = conn.prepareStatement("SELECT * FROM users;");
+PreparedStatement preste = conn.prepareStatement(SELECT_USERS);
 
     ResultSet rs2 = preste.executeQuery();
         while(rs2.next()){
